@@ -2,7 +2,7 @@
 The Final Project of ORIE 6125
 
 This is the github repository of the ORIE 6125 final project. The team members include: Sin-Shuen Cheung, Yan Deng, Jian Wu and Kecheng Xu. We will participate
-in an ongoing kaggle data science competiton: Restaurant Revenue Prediction. The desciption of the competition can be found https://www.kaggle.com/c/restaurant-revenue-prediction. The deadline of the competiton is may 5th, 2015, which aligns with the scheduling of the course.
+in an ongoing kaggle data science competiton: Restaurant Revenue Prediction. The desciption of the competition can be found https://www.kaggle.com/c/restaurant-revenue-prediction. The deadline of the competiton is May 5th, 2015, which aligns with the scheduling of the course.
 
 Description of the data: TFI has provided a dataset with 137 restaurants in the training set, and a test set of 100000 restaurants. The data columns include the open date, location, city type, and three categories of obfuscated data: Demographic data, Real estate data, and Commercial data. The revenue column indicates a (transformed) revenue of the restaurant in a given year and is the target of predictive analysis.
 
