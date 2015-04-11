@@ -11,3 +11,9 @@ W1=W1./repmat(sqrt(sum(W1.^2,1)),37,1);
 Y1 = (X1-repmat(Mu1,[137,1]))*W1;
 
 csvwrite('train_DR.csv',Y1);
+
+X2=csvread('test.csv',1,5);
+X2=X2(:,1:37);
+Y2 = (X2-repmat(Mu1,[100000,1]))*W1;
+
+csvwrite('test_DR.csv',Y2);
