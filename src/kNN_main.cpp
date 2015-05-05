@@ -14,13 +14,15 @@
 #include<sstream>
 #include"kNN.h"
 #include <time.h>
+#include"kNN_main.h"
 
 using namespace std;
 
-
+/* moved to header
 vector<double> get_revenue__TRAIN_CSV__();
 vector<vector<double> > get_params_CSV_(string);
 vector <double> naive_kNN(int num_of_NN, vector<vector <double> > test_data_param, vector<vector<double> > training_data_param, vector< double>  training_data_rev);
+*/
 
 int main(){
 
@@ -28,10 +30,10 @@ int main(){
 
     vector<double> training_data_rev= get_revenue__TRAIN_CSV__();
 
-    /*
+    
     for (int i=0; i< training_data_rev.size();i++) cout<< training_data_rev[i]<<endl;
 
-    cout<<"size of training_data_rev: "<< training_data_rev.size()<<endl;
+    /*cout<<"size of training_data_rev: "<< training_data_rev.size()<<endl;
 
     TESTED.
     */

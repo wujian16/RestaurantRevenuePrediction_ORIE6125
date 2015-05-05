@@ -22,11 +22,18 @@ public:
     const vector<int> find_smallest_k(int,vector <double>,int);
 
     void print_dim(){cout<< dim << endl;}
+    int get_dim(){return dim;}
 
     void print_num(){cout<< num << endl;}
+    int get_num(){return num;}
+
 
     void print_data_size(){cout<< data.size() << endl;}
-
+    
+    double get_position(int a, int b){
+        if (a<num && a>=0 && b<dim && b>=0){return data[a][b];}
+        return 0;
+    }
 };
 
 
