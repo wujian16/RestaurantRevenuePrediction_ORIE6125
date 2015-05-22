@@ -8,5 +8,6 @@ data$revenue=log(data$revenue)
 
 library(nnet)
 M=max(data$revenue)
-data.net = nnet(revenue/M~Open.Date+City.Group+Type+V1+V2+V3, data = data, size=20)
-plot(data.net$fit*M)
+data$revenue=data$revenue/M
+data.net = nnet(revenue~Open.Date+City.Group+Type+V1+V2+V3, data = data, size=20)
+plot(data.net$residual, ylab="residual for log revenue")
