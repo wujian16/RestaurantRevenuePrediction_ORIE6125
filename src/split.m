@@ -11,8 +11,10 @@ x_min = min(x);
 x_max = max(x);
 inc = (x_max - x_min)/1000; % the length of increacement 
 sd = std(y);
-
-for pt = x_min:inc:x_max
+p = x_min;
+sub1 = find(x>p);
+sub2 = find(x<=p);
+for pt = (x_min+inc):inc:x_max
     sub_index1 = find(x>pt);
     sub_index2 = find(x<=pt);
     sd1_temp = std(y(sub_index1));

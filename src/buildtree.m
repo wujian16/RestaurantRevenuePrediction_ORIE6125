@@ -3,9 +3,13 @@ function buildtree( X, y, depth, flag )
 % X includes all the independent variables
 % y is the dependent variable we are interested in; in this problem, y is
 % always the revenue
+% flag=1 means it's the left node or root, otherwise it's the right node
+% depth returns the current depth of the node, i.e., the depth of the root
+% is 1
+% demo: after running intialtree.m, input: buildtree(X,revenue,1,1);
 n = length(y);
 min_node = 13;
-sigma = 2e5;
+sigma = 1e-5;
 fprintf('The depth of the node is %d. The value of the node is %f. The flag is %d.\n', depth, mean(y), flag);
 if(n>=min_node)
     [index,p,sd,sub1,sub2]=buildnode(X,y);
@@ -22,6 +26,8 @@ if(n>=min_node)
 end
 
 end
+
+
 
 
 
