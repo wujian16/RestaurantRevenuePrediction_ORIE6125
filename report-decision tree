@@ -1,0 +1,64 @@
+Decision Regression Tree
+
+1. Methodology
+Decision tree learning uses a decision tree as a predictive model which maps observations about an item to conclusions about the item's target value. It is one of the predictive modeling approaches used in statistics and machine learning. Decision trees where the target variable can take continuous values (typically real numbers) are called regression trees.
+Decision tree builds regression models in the form of a tree structure. It breaks down a dataset into smaller and smaller subsets while at the same time an associated decision tree is incrementally developed. The final result is a tree with decision nodes and leaf nodes. A decision node has two or more branches, each representing values for the attribute tested. Leaf node represents a decision on the numerical target. The topmost decision node in a tree which corresponds to the best predictor called root node. Decision trees can handle both categorical and numerical data.
+The core algorithm for building decision trees called ID3 by J. R. Quinlan which employs a top-down, greedy search through the space of possible branches with no backtracking. The ID3 algorithm can be used to construct a decision tree for regression by replacing Information Gain with Standard Deviation Reduction.
+The standard deviation reduction is based on the decrease in standard deviation after a dataset is split on an attribute. Constructing a decision tree is all about finding attribute that returns the highest standard deviation reduction. 
+
+	Step1: calculate the standard deviation of the target.
+	Step2: split the dataset into different attributes, then calculate the standard deviation for each branch. The standard deviation reduction equals the standard deviation before split subtract the standard deviation after split.
+    SDR(T,X)=S(T)-S(T,X)
+	Step3: The attribute with the largest standard deviation reduction is chosen for the decision node.
+	Step4: Dataset is divided based on the values of the selected attribute.
+	Step5: a branch set with standard deviation more than 0 needs further splitting.
+	Step6: the process is run recursively on the non-leaf branches, until all data is processed.
+
+2. Data Processing
+Besides the obfuscated data P1 through P37, there are another 4 variables might relating to the variable Revenue we are interested in, i.e., Open Date, City, City Group and Type, as shown in Table 2-1. 
+
+Table 2-1. Description of Selected Variables
+Variable	    Description
+OpenDate	    Opening date for a restaurant
+City	        City that the restaurant is in
+City Group	  Type of the city: big cities or other
+Type	        Type of the restaurant: FC (Food Court), IL (Inline), DT (Drive Thru) and MB (Mobile)
+
+Since the names of cities where the restaurants are located and types of the restaurants are don’t make any sense in regression models, we used indicators instead. Table 2-2 presents the indicators we introduced into consideration. For Open Date, we use the numeric value of it, which is the number of days since 1/1/0. We don’t have indicators for City because it combines too much information, like whether it is a big city. It would be stupid to introduce one indicator for one city. 
+
+Table 2-2. Description of Indicators
+Variable	   Indicator
+City Group	 I_bigcity=1, if the city is a big city; I_bigcity=0, otherwise.
+Type	       I_FC=1, if the restaurant is Food Court; I_FC=0, otherwise.
+             I_IL=1, if the restaurant is Inline; I_IL=0, otherwise.
+             I_DT=1, if the restaurant is Drive Thrut; I_DT=0, otherwise.
+             I_MB=1, if the restaurant is Mobile; I_MB=0, otherwise.
+
+We utilize forward stepwise selection method to select significant variables. Forward selection starts with no variables in the model, then tests the addition of each variable using a chosen model comparison criterion. If any variable added improve the model the most, we select this variable. Repeat this process until none improves the model. In this paper, we used linear regression stepwise selection method. In each step, we chose the most significant variable until there is no significant variable (i.e., no variable having a p-value less than 0.1). 
+The result of forward stepwise selection method is 
+     y_revenue  ~ x_date+ I_bigcity+ I_FC  
+Note that we used linear regression model to check whether the covariates are significantly related to “revenue”. Although we use decision regression tree, which doesn’t care about the number of covariates, it is still necessary and important to start with the most significant ones for efficient algorithm. 
+
+3. Implementation in MATLAB
+Basically, the decision tree is a binary tree, so it is very easy to implement it in a recursive algorithm. To implement it, we create four functions/scripts in MATLAB, as listed in Table 3-1.
+
+Table 3-1. Functions/Scripts Developed for Decision Regression Tree in MATLAB
+Name	                   Description
+Initialtree.m	           To read in the data from csv file.
+split.m	                 To find a point which splits a vector into two parts with largest reduction in deviation.
+buildnode.m	             To build a node with two branches (or leaves) based on the splitting from split.m. 
+buildtree.m	             To build a decision regression tree using recursive algorithm after running Intialtree.m.
+
+We recorded the depth of the node and a flag indicating whether it is a left child or right child to its parent. The depth of the root is 1 and the flag = 1 means it is a left child or it is a root if the depth of it is 1. Besides we recorded the average values of all the points (“revenue”) allocated to that node. We recorded which covariates and the splitting point this node used to split. 
+We terminate the recursive loop if there are less than 13 points ( 10% of the number of observations) in that node or the standard deviation of revenue in that node is less than a tolerance. It is usually very tricky to decide a good tolerance. Although we set it as 〖10〗^(-5), since the revenue is at the level of 〖10〗^6, we never reached that tolerance. 
+There is a mature function in MATLAB called fitrtree, which is designed for building decision regression tree. We used it to check our tree. It turns out that our tree is very similar to built from fitrtree. The result is shown below in Figure 3-1.
+ 
+Figure 3-1. The Result of Decision Regression Tree
+
+We plotted the predicted revenues and observed revenues in one figure to check the prediction power, as shown in Figure 3-2. The result shows that decision regression tree model has a very similar prediction power with linear regression model. Decision tree can’t predict the extreme point. This is not surprising since decision tree model averages the values in each leaf and set it as the predicted value any point falling into that leaf. In each leaf, actually it is a linear regression model since averaging is linear.
+ 
+Figure 3-2. Comparison between Predicted and Observed Revenue
+
+
+
+
